@@ -7,7 +7,7 @@
 
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
-  background: linear-gradient(to top, #031d20, #0f282b);
+  background: linear-gradient(to top, black, #062527);
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -24,6 +24,7 @@
   --color-icon: #09b880;
   --color-text: #a3a8a9;
   --color-button: #05373e;
+  --color-border-button: #027f8f;
 }
 
 .bg-main {
@@ -47,6 +48,9 @@
 .border-light {
   border-color: var(--color-borderLight);
 }
+.border-button {
+  border-color: var(--color-border-button);
+}
 .outline-color {
   border-color: var(--color-border);
 }
@@ -64,6 +68,10 @@
 }
 .bg-button {
   background-color: var(--color-button);
+}
+
+.card-shadow {
+  box-shadow: 0px 4px 16px rgb(0, 0, 0);
 }
 
 input[type="number"]::-webkit-outer-spin-button,
