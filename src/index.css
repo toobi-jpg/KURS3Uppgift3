@@ -7,12 +7,77 @@
 
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  background: linear-gradient(to top, #031d20, #0f282b);
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  --color-main: #0f282b;
+  --color-mainDark: #031d20;
+  --color-bg: #072428;
+  --color-bg2: #011d20;
+  --color-bgLight: #07373f;
+  --color-border: #084f58;
+  --color-borderLight: #11a078;
+  --color-icon: #09b880;
+  --color-text: #a3a8a9;
+  --color-button: #05373e;
+}
+
+.bg-main {
+  background-color: var(--color-main);
+}
+.bg-main-dark {
+  background-color: var(--color-mainDark);
+}
+.bg-bg {
+  background-color: var(--color-bg);
+}
+.bg-bg2 {
+  background-color: var(--color-bg2);
+}
+.bg-bg-light {
+  background-color: var(--color-bgLight);
+}
+.border {
+  border-color: var(--color-border);
+}
+.border-light {
+  border-color: var(--color-borderLight);
+}
+.outline-color {
+  border-color: var(--color-border);
+}
+.outline-color-light {
+  border-color: var(--color-borderLight);
+}
+.text-main {
+  color: var(--color-main);
+}
+.text-text {
+  color: var(--color-text);
+}
+.text-icon {
+  color: var(--color-icon);
+}
+.bg-button {
+  background-color: var(--color-button);
+}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+input:focus {
+  border-color: var(--color-borderLight);
 }
 
 a {
