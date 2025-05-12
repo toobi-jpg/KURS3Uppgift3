@@ -1,6 +1,7 @@
 import FormInput from "./FormInput";
 import * as yup from "yup";
 import { useState } from "react";
+import ThreeDots from "react-loading-icons/dist/esm/components/three-dots";
 
 const loanSchema = yup.object({
   name: yup.string().required("Vänligen ange för och efternamn."),
@@ -28,38 +29,33 @@ const loanSchema = yup.object({
 
 export default function LoanForm() {
   const [errors, setErrors] = useState({});
-  const [showSuccess, setShowSuccess] = useState(false);
+
+  const initialFormState = {
+    name: "",
+    phone: "",
+    age: "",
+    employed: false,
+    salary: "",
+    amount: "",
+    purpose: "",
+    period: "",
+    comment: "",
+  };
+
   const [formData, setFormData] = useState(() => {
     const saved = localStorage.getItem("loanFormData");
     if (saved) {
       try {
         return JSON.parse(saved);
       } catch {
-        return {
-          name: "",
-          phone: "",
-          age: "",
-          employed: false,
-          salary: "",
-          amount: "",
-          purpose: "",
-          period: "",
-          comment: "",
-        };
+        return initialFormState;
       }
     }
-    return {
-      name: "",
-      phone: "",
-      age: "",
-      employed: false,
-      salary: "",
-      amount: "",
-      purpose: "",
-      period: "",
-      comment: "",
-    };
+    return initialFormState;
   });
+
+  const [showSuccess, setShowSuccess] = useState(false);
+  const [showLoading, setShowLoading] = useState(false);
 
   function handleChange(
     e: React.ChangeEvent<
@@ -107,8 +103,15 @@ export default function LoanForm() {
         abortEarly: false,
       });
       setErrors({});
-      setShowSuccess(true);
-      console.log(validatedData);
+      setShowLoading(true);
+
+      setTimeout(() => {
+        setShowLoading(false);
+        setShowSuccess(true);
+        setFormData(initialFormState);
+        localStorage.removeItem("loanFormData");
+        console.log(validatedData);
+      }, 3000);
     } catch (err: any) {
       if (err.name === "ValidationError") {
         const formErrors: Record<string, string> = {};
@@ -121,109 +124,129 @@ export default function LoanForm() {
   }
 
   return (
-    <div className="flex mx-auto max-w-sm items-center rounded-xl bg-bg p-6 card-shadow">
+    <div className="flex flex-col mx-auto items-center rounded-xl bg-bg2 p-6 card-shadow">
       <form
+        id="loan-form"
         onSubmit={handleSubmit}
         action="loan-application"
-        className="flex flex-col items-center"
+        className="flex flex-row gap-6 w-full"
       >
-        <FormInput
-          type="text"
-          label="Namn"
-          id="name-input"
-          value={formData.name}
-          onChange={handleChange}
-          placeholder="Johan Johansson"
-          error={errors.name}
-        />
-        <FormInput
-          type="tel"
-          label="Telefon"
-          id="phone-input"
-          value={formData.phone}
-          onChange={handleChange}
-          placeholder="070-123 45 67"
-          error={errors.phone}
-        />
-        <FormInput
-          type="number"
-          label="Ålder"
-          id="age-input"
-          value={formData.age}
-          onChange={handleChange}
-          placeholder="32"
-          error={errors.age}
-        />
-        <FormInput
-          type="checkbox"
-          label="Är du anställd?"
-          value={formData.employed}
-          onChange={handleChange}
-          id="employed-input"
-          error={errors.employed}
-        />
-        <FormInput
-          type="select"
-          label="Din lön"
-          id="salary-input"
-          value={formData.salary}
-          onChange={handleChange}
-          error={errors.salary}
-          options={[
-            { label: "", value: "" },
-            { label: "Mindre än 5000kr", value: "<5000" },
-            { label: "5000kr - 10 000kr", value: "5000-10000" },
-            { label: "10 000kr - 20 000kr", value: "10000-20000" },
-            { label: "Över 20 000kr", value: ">20000" },
-          ]}
-        />
-        <FormInput
-          type="number"
-          label="Lånebelopp"
-          id="amount-input"
-          value={formData.amount}
-          onChange={handleChange}
-          placeholder="100 000"
-          error={errors.amount}
-        />
-        <FormInput
-          type="text"
-          label="Syfte"
-          id="purpose-input"
-          value={formData.purpose}
-          onChange={handleChange}
-          placeholder="Bilköp"
-          error={errors.purpose}
-        />
-        <FormInput
-          type="number"
-          label="Återbetalningstid i år"
-          id="period-input"
-          value={formData.period}
-          onChange={handleChange}
-          placeholder="3"
-          error={errors.period}
-        />
-        <FormInput
-          type="textarea"
-          label="Kommentar"
-          id="comment-input"
-          value={formData.comment}
-          onChange={handleChange}
-        />
-        <button
-          type="submit"
-          className="bg-button py-1 px-6 rounded-full border-1 border-button mt-2 font-medium"
-        >
-          Skicka
-        </button>
-        {showSuccess && (
-          <div className="flex items-center font-semibold gap-2 bg-bg-light rounded-full border-1 border py-2 px-4 max-w-full mt-4">
-            <i className="bx bxs-badge-check"></i>
-            <h4>Låneansökan har skickats!</h4>
-          </div>
-        )}
+        <div id="left-container" className="flex flex-col items-center w-1/2">
+          <FormInput
+            type="text"
+            label="Namn"
+            id="name-input"
+            value={formData.name}
+            onChange={handleChange}
+            placeholder="Johan Johansson"
+            error={errors.name}
+          />
+          <FormInput
+            type="tel"
+            label="Telefon"
+            id="phone-input"
+            value={formData.phone}
+            onChange={handleChange}
+            placeholder="070-123 45 67"
+            error={errors.phone}
+          />
+          <FormInput
+            type="number"
+            label="Ålder"
+            id="age-input"
+            value={formData.age}
+            onChange={handleChange}
+            placeholder="32"
+            error={errors.age}
+          />
+          <FormInput
+            type="checkbox"
+            label="Är du anställd?"
+            value={formData.employed}
+            onChange={handleChange}
+            id="employed-input"
+            error={errors.employed}
+          />
+        </div>
+        <div id="right-container" className="flex flex-col items-center w-1/2">
+          <FormInput
+            type="select"
+            label="Din lön"
+            id="salary-input"
+            value={formData.salary}
+            onChange={handleChange}
+            error={errors.salary}
+            options={[
+              { label: "", value: "" },
+              { label: "Mindre än 5000kr", value: "<5000" },
+              { label: "5000kr - 10 000kr", value: "5000-10000" },
+              { label: "10 000kr - 20 000kr", value: "10000-20000" },
+              { label: "Över 20 000kr", value: ">20000" },
+            ]}
+          />
+          <FormInput
+            type="number"
+            label="Lånebelopp"
+            id="amount-input"
+            value={formData.amount}
+            onChange={handleChange}
+            placeholder="100 000"
+            error={errors.amount}
+          />
+          <FormInput
+            type="text"
+            label="Syfte"
+            id="purpose-input"
+            value={formData.purpose}
+            onChange={handleChange}
+            placeholder="Bilköp"
+            error={errors.purpose}
+          />
+          <FormInput
+            type="number"
+            label="Återbetalningstid i år"
+            id="period-input"
+            value={formData.period}
+            onChange={handleChange}
+            placeholder="3"
+            error={errors.period}
+          />
+        </div>
       </form>
+      <div className="flex mx-auto items-center gap-6 w-full mt-2">
+        <div id="left-inner-container" className="w-1/2 flex items-center">
+          <FormInput
+            type="textarea"
+            label="Kommentar"
+            id="comment-input"
+            value={formData.comment}
+            onChange={handleChange}
+          />
+        </div>
+        <div
+          id="right-inner-container"
+          className="w-1/2 flex items-center justify-center mt-4"
+        >
+          <button
+            type="submit"
+            form="loan-form"
+            className="bg-button py-1 px-6 rounded-full border-1 border-button font-medium"
+          >
+            Skicka ansökan
+          </button>
+        </div>
+      </div>
+      {showLoading && (
+        <div className="mt-4">
+          <ThreeDots width={"48px"} fill={"#09b880"} />
+        </div>
+      )}
+      {showSuccess && (
+        <div className="flex items-center font-semibold gap-2 bg-button rounded-full border-1 border-button py-2 px-4 max-w-full mt-4">
+          <i className="bx bxs-badge-check"></i>
+          <h4>Låneansökan har skickats!</h4>
+        </div>
+      )}
     </div>
   );
 }

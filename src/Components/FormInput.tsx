@@ -23,8 +23,8 @@ const FormInput: React.FC<FormInputProps> = ({
 }) => {
   if (type === "checkbox") {
     return (
-      <div className="flex w-full gap-x-2 items-center mt-3 ml-0.5">
-        <label htmlFor={id} className="text-sm">
+      <div className="flex w-full gap-x-2 items-center mt-3 ml-1">
+        <label htmlFor={id} className="text-m">
           {label}
         </label>
         <input
@@ -47,7 +47,7 @@ const FormInput: React.FC<FormInputProps> = ({
         </div>
         <select
           id={id}
-          className="flex items-center w-64 h-8 bg-bg2 border-1 border rounded-xl outline-none px-2 text-sm"
+          className="flex items-center w-64 h-8 bg-bg border-1 border rounded-xl outline-none px-2 text-sm"
           value={value}
           onChange={onChange}
         >
@@ -62,15 +62,16 @@ const FormInput: React.FC<FormInputProps> = ({
     );
   } else if (type === "textarea") {
     return (
-      <div className="mt-2">
+      <div className="">
         <div className="flex w-full text-left ml-0.5">
           <label htmlFor={id} className="text-m">
             {label}
           </label>
         </div>
         <textarea
+          form="loan-form"
           id={id}
-          className="w-64 h-16 bg-bg2 border-1 border rounded-xl outline-none p-2 text-sm resize-none"
+          className="w-64 h-16 bg-bg border-1 border rounded-xl outline-none p-2 text-sm resize-none"
           value={value}
           onChange={onChange}
         />
@@ -89,7 +90,7 @@ const FormInput: React.FC<FormInputProps> = ({
           id={id}
           type={type}
           placeholder={placeholder}
-          className="w-64 h-8 bg-bg2 border-1 border rounded-xl outline-none p-2 text-sm"
+          className="w-64 h-8 bg-bg border-1 border rounded-xl outline-none p-2 text-sm"
           value={value}
           onChange={onChange}
         />
