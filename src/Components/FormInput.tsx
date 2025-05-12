@@ -5,9 +5,10 @@ interface FormInputProps {
   type: string;
   id: string;
   placeholder?: string;
-  value: string | number | boolean;
+  value: any;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   options?: { label: string; value: string }[];
+  error?: string;
 }
 
 const FormInput: React.FC<FormInputProps> = ({
@@ -18,6 +19,7 @@ const FormInput: React.FC<FormInputProps> = ({
   placeholder,
   value,
   onChange,
+  error,
 }) => {
   if (type === "checkbox") {
     return (
@@ -32,6 +34,7 @@ const FormInput: React.FC<FormInputProps> = ({
           value={value}
           onChange={onChange}
         />
+        {error && <div className="text-red-500 text-xs mt-1">{error}</div>}
       </div>
     );
   } else if (type === "select") {
@@ -54,6 +57,7 @@ const FormInput: React.FC<FormInputProps> = ({
             </option>
           ))}
         </select>
+        {error && <div className="text-red-500 text-xs mt-1">{error}</div>}
       </div>
     );
   } else if (type === "textarea") {
@@ -70,6 +74,7 @@ const FormInput: React.FC<FormInputProps> = ({
           value={value}
           onChange={onChange}
         />
+        {error && <div className="text-red-500 text-xs mt-1">{error}</div>}
       </div>
     );
   } else {
@@ -88,6 +93,7 @@ const FormInput: React.FC<FormInputProps> = ({
           value={value}
           onChange={onChange}
         />
+        {error && <div className="text-red-500 text-xs">{error}</div>}
       </div>
     );
   }
