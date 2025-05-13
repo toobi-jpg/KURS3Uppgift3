@@ -57,12 +57,8 @@ export default function LoanForm() {
   const [showSuccess, setShowSuccess] = useState(false);
   const [showLoading, setShowLoading] = useState(false);
 
-  function handleChange(
-    e: React.ChangeEvent<
-      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
-    >
-  ) {
-    const { id, type, value, checked } = e.target as HTMLInputElement;
+  function handleChange(e) {
+    const { id, type, value, checked } = e.target;
     let newData = { ...formData };
     if (type === "checkbox") {
       newData = { ...formData, employed: checked };
@@ -87,7 +83,7 @@ export default function LoanForm() {
     localStorage.setItem("loanFormData", JSON.stringify(newData));
   }
 
-  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event) {
     event.preventDefault();
 
     const convertFormTypes = {
@@ -112,10 +108,10 @@ export default function LoanForm() {
         localStorage.removeItem("loanFormData");
         console.log(validatedData);
       }, 3000);
-    } catch (err: any) {
+    } catch (err) {
       if (err.name === "ValidationError") {
-        const formErrors: Record<string, string> = {};
-        err.inner.forEach((error: any) => {
+        const formErrors = {};
+        err.inner.forEach((error) => {
           if (error.path) formErrors[error.path] = error.message;
         });
         setErrors(formErrors);
@@ -129,7 +125,7 @@ export default function LoanForm() {
         id="loan-form"
         onSubmit={handleSubmit}
         action="loan-application"
-        className="flex flex-row gap-6 w-full"
+        className="flex sm:flex-row sm:items-start items-center flex-col gap-6 w-full"
       >
         <div id="left-container" className="flex flex-col items-center w-1/2">
           <FormInput
@@ -213,8 +209,11 @@ export default function LoanForm() {
           />
         </div>
       </form>
-      <div className="flex mx-auto items-center gap-6 w-full mt-2">
-        <div id="left-inner-container" className="w-1/2 flex items-center">
+      <div
+        id="bottom-container"
+        className="flex mx-auto flex-col sm:flex-row sm:items-center gap-6 w-full mt-2"
+      >
+        <div id="left-inner-container" className="sm:w-1/2 flex items-center">
           <FormInput
             type="textarea"
             label="Kommentar"
@@ -225,7 +224,7 @@ export default function LoanForm() {
         </div>
         <div
           id="right-inner-container"
-          className="w-1/2 flex items-center justify-center mt-4"
+          className="sm:w-1/2 flex items-center justify-center mt-4"
         >
           <button
             type="submit"
@@ -242,8 +241,8 @@ export default function LoanForm() {
         </div>
       )}
       {showSuccess && (
-        <div className="flex items-center font-semibold gap-2 bg-button rounded-full border-1 border-button py-2 px-4 max-w-full mt-4">
-          <i className="bx bxs-badge-check"></i>
+        <div className="flex items-center font-semibold gap-2 bg-button rounded-full border-1 border-button py-2 px-5 max-w-full mt-4">
+          <i className="bx bxs-badge-check bx-md text-icon"></i>
           <h4>Låneansökan har skickats!</h4>
         </div>
       )}
