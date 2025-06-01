@@ -30,6 +30,22 @@ const loanSchema = yup.object({
 export default function LoanForm() {
   const [errors, setErrors] = useState({});
 
+  const salaryWarning = () => {
+    if (formData.salary === "<5000") {
+      return (
+        <div className="flex justify-center font-semibold text-xs bg-button rounded-lg border-1 border-button py-1 px-1 min-w-64 mt-4">
+          Obs! Lägre lön kan påverka din ansökan
+        </div>
+      );
+    } else if (formData.salary === "5000-10000" && formData.amount >= 100000) {
+      return (
+        <div className="flex justify-center font-semibold text-xs bg-button rounded-lg border-1 border-button py-1 px-1 min-w-64 mt-4">
+          Obs! Lägre lön kan påverka din ansökan
+        </div>
+      );
+    }
+  };
+
   const initialFormState = {
     name: "",
     phone: "",
@@ -137,6 +153,7 @@ export default function LoanForm() {
             placeholder="Johan Johansson"
             error={errors.name}
           />
+
           <FormInput
             type="tel"
             label="Telefon"
@@ -146,6 +163,7 @@ export default function LoanForm() {
             placeholder="070-123 45 67"
             error={errors.phone}
           />
+
           <FormInput
             type="number"
             label="Ålder"
@@ -155,6 +173,7 @@ export default function LoanForm() {
             placeholder="32"
             error={errors.age}
           />
+
           <FormInput
             type="checkbox"
             label="Är du anställd?"
@@ -180,6 +199,8 @@ export default function LoanForm() {
               { label: "Över 20 000kr", value: ">20000" },
             ]}
           />
+          {salaryWarning()}
+
           <FormInput
             type="number"
             label="Lånebelopp"
@@ -189,6 +210,7 @@ export default function LoanForm() {
             placeholder="100 000"
             error={errors.amount}
           />
+
           <FormInput
             type="text"
             label="Syfte"
@@ -198,6 +220,7 @@ export default function LoanForm() {
             placeholder="Bilköp"
             error={errors.purpose}
           />
+
           <FormInput
             type="number"
             label="Återbetalningstid i år"
